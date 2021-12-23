@@ -26,6 +26,7 @@ RUN yum -y install python2-pip && \
 RUN yum -y update
 
 ENV PATH "/packer:$PATH"
+ENV PATH "$PATH:/usr/local/bin/"
 
 # Install Helm 3
 RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 && \
