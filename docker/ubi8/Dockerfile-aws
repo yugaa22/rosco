@@ -47,3 +47,4 @@ ENV PATH "kustomize:$PATH"
 RUN useradd spinnaker
 RUN mkdir -p /opt/rosco/plugins
 USER spinnaker
+CMD ["/opt/rosco/bin/rosco"]
