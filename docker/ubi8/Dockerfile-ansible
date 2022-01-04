@@ -31,8 +31,19 @@ RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-he
 #RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get && chmod +x get && ./get &&  rm get
 
 # Install Ansible
-RUN yum install python3 ansible  
-RUN mkdir -pv /etc/ansible && echo -e '[local]\nlocalhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3' > /etc/ansible/hosts
+
+
+RUN yum install -y gcc python-dev libkrb5-dev && \
+    yum install python3-pip -y && \
+    pip3 install --upgrade pip && \
+    pip3 install --upgrade virtualenv && \
+    pip3 install pywinrm[kerberos] && \
+    yum install krb5-user -y && \ 
+    pip3 install pywinrm && \
+    pip3 install ansible
+    
+#RUN yum install python3 ansible  
+#RUN mkdir -pv /etc/ansible && echo -e '[local]\nlocalhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3' > /etc/ansible/hosts
 
 
 RUN mkdir kustomize && \
