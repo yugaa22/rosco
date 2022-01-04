@@ -5,8 +5,27 @@ COPY rosco-web/config              /opt/rosco
 COPY halconfig/packer              /opt/rosco/config/packer
 
 ENV KUSTOMIZE_VERSION=3.8.5
-
 ENV PACKER_VERSION=1.6.6
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+RUN yum check-update; \
+    yum install -y gcc libffi-devel python3 epel-release; \
+    yum install -y python3-pip; \
+    yum install -y wget; \
+    yum clean all
+
+RUN pip3 install --upgrade pip; \
+    pip3 install --upgrade virtualenv; \
+    pip3 install pywinrm[kerberos]; \
+    pip3 install pywinrm; \
+    pip3 install jmspath; \
+    pip3 install requests; \
+    python3 -m pip install ansible; \
+    wget -q https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt; \
+    pip3 install -r requirements-azure.txt; \
+    rm requirements-azure.txt; \
+    ansible-galaxy collection install azure.azcollection
 
 WORKDIR /packer
 
@@ -30,20 +49,6 @@ RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-he
 # Install Helm 2
 #RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get && chmod +x get && ./get &&  rm get
 
-# Install Ansible
-
-
-RUN yum install -y gcc python-dev libkrb5-dev && \
-    yum install python3-pip -y && \
-    pip3 install --upgrade pip && \
-    pip3 install --upgrade virtualenv && \
-    pip3 install pywinrm[kerberos] && \
-    yum install krb5-user -y && \ 
-    pip3 install pywinrm && \
-    pip3 install ansible
-    
-#RUN yum install python3 ansible  
-#RUN mkdir -pv /etc/ansible && echo -e '[local]\nlocalhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3' > /etc/ansible/hosts
 
 
 RUN mkdir kustomize && \
