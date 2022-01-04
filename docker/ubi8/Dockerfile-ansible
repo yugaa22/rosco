@@ -31,7 +31,7 @@ RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-he
 #RUN wget https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get && chmod +x get && ./get &&  rm get
 
 # Install Ansible
-RUN apk --no-cache add --update python3 ansible  
+RUN yum install python3 ansible  
 RUN mkdir -pv /etc/ansible && echo -e '[local]\nlocalhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3' > /etc/ansible/hosts
 
 
