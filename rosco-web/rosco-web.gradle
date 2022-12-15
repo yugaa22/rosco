@@ -1,12 +1,5 @@
 apply plugin: 'io.spinnaker.package'
 
-ext {
-  springConfigLocation = System.getProperty('spring.config.additional-location', "${System.getProperty('user.home')}/.spinnaker/".toString())
-}
-
-run {
-  systemProperty('spring.config.additional-location', project.springConfigLocation)
-}
 mainClassName = 'com.netflix.spinnaker.rosco.Main'
 
 configurations.all {
@@ -15,12 +8,12 @@ configurations.all {
 }
 
 dependencies {
-  compile project(":rosco-core")
-  compile project(":rosco-manifests")
+  implementation project(":rosco-core")
+  implementation project(":rosco-manifests")
   implementation "io.spinnaker.kork:kork-web"
   implementation "io.swagger:swagger-annotations"
 
-  implementation "org.codehaus.groovy:groovy-all"
+  implementation "org.codehaus.groovy:groovy"
   implementation "io.spinnaker.kork:kork-artifacts"
   implementation "org.springframework.boot:spring-boot-starter-web"
   implementation "net.logstash.logback:logstash-logback-encoder"
@@ -47,7 +40,7 @@ ospackage {
   configurationFile('/opt/rosco/config/packer/alicloud.json')
   configurationFile('/opt/rosco/config/packer/aws-chroot.json')
   configurationFile('/opt/rosco/config/packer/aws-ebs.json')
-  configurationFile('/opt/rosco/config/packer/azure-linux.json')
+  configurationFile('/opt/rosco/config/packer/azure-linux.pkr.hcl')
   configurationFile('/opt/rosco/config/packer/gce.json')
   configurationFile('/opt/rosco/config/packer/huaweicloud.json')
   configurationFile('/opt/rosco/config/packer/oci.json')
