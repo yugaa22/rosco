@@ -15,7 +15,7 @@ RUN yum install -y java-11-openjdk-headless.x86_64 wget unzip curl git  openssl 
   unzip packer_${PACKER_VERSION}_linux_amd64.zip && \
   rm packer_${PACKER_VERSION}_linux_amd64.zip
   
-RUN yum install tar
+RUN yum install -y tar
 
 
 RUN yum -y update
