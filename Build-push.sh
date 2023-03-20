@@ -31,20 +31,8 @@ echo "Build id is --------------------- $BUILD_ID"
    # Assigning Rhel Image Name according to Docker.io Details
    RELEASE_IMAGENAME="opsmx11/ubi8-spin-rosco:${GITHASH}-${BUILD_NUMBER}"
    
-
-   # Assigning Ubuntu Based Image Name according to Quay.io Details
-   IMAGENAME="quay.io/opsmxpublic/spin-rosco:${GITHASH}-${BUILD_NUMBER}"
-   
-   # Assigning Ubuntu Based Image Name according to Docker.io Details
-   RELEASE_IMAGENAME="opsmx11/spin-rosco:${GITHASH}-${BUILD_NUMBER}"
-   
-
-   
    # To Build Docker image with Given Docker File
-   docker build -t $IMAGENAME .  -f  ${DOCKERFILE_PATH} --no-cache 
-   
-   # Create new Image Tag for Docker.io with the previous Build
-   docker tag $IMAGENAME $RELEASE_IMAGENAME
+   docker build -t $IMAGENAME -t $RELEASE_IMAGENAME .  -f  ${DOCKERFILE_PATH} --no-cache 
    
    # Quay.io login
    docker login -u $quay_user -p $quay_pass quay.io
