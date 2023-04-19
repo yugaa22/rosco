@@ -44,10 +44,10 @@ RUN mkdir -p /opt/rosco/plugins
 RUN chmod -R 777 /opt/rosco/plugins/
 RUN chown -R spinnaker:spinnaker /opt/
 
-RUN chmod -R 777 /var/
+RUN chmod -R 755 /var/
 RUN chown -R spinnaker:spinnaker /var/
 
-RUN chmod -R 777 /etc/
+RUN chmod -R 755 /etc/
 RUN chown -R spinnaker:spinnaker /etc/
 
 USER spinnaker
