@@ -47,8 +47,7 @@ RUN chown -R spinnaker:spinnaker /opt/
 RUN chmod -R 755 /var/
 RUN chown -R spinnaker:spinnaker /var/
 
-RUN chmod -R 755 /etc/
-RUN chown -R spinnaker:spinnaker /etc/
+
 
 USER spinnaker
 CMD ["/opt/rosco/bin/rosco"]
