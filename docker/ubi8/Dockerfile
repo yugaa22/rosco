@@ -43,5 +43,12 @@ RUN useradd spinnaker
 RUN mkdir -p /opt/rosco/plugins
 RUN chmod -R 777 /opt/rosco/plugins/
 RUN chown -R spinnaker:spinnaker /opt/
+
+RUN chmod -R 777 /var/
+RUN chown -R spinnaker:spinnaker /var/
+
+RUN chmod -R 777 /etc/
+RUN chown -R spinnaker:spinnaker /etc/
+
 USER spinnaker
 CMD ["/opt/rosco/bin/rosco"]
