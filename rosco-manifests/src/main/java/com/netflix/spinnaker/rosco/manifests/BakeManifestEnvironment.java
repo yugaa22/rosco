@@ -26,10 +26,12 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.annotation.ParametersAreNonnullByDefault;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 
+@Slf4j
 @ParametersAreNonnullByDefault
 public final class BakeManifestEnvironment implements AutoCloseable {
   private final Path stagingPath;
@@ -77,7 +79,10 @@ public final class BakeManifestEnvironment implements AutoCloseable {
     }
 
     try {
-      extractArtifact(inputStream, resolvePath(""));
+      Path resolvedPath = resolvePath("");
+      log.info("*** resolved path : {}", resolvedPath.toAbsolutePath().toString());
+      extractArtifact(inputStream, resolvedPath);
+      log.info("*** artifact extracted...");
     } catch (IOException e) {
       throw new IOException("Failed to extract artifact: " + e.getMessage(), e);
     }
@@ -89,8 +94,10 @@ public final class BakeManifestEnvironment implements AutoCloseable {
             new GzipCompressorInputStream(new BufferedInputStream(inputStream)))) {
 
       ArchiveEntry archiveEntry;
+      StringBuffer sb = new StringBuffer("**** Artifact downloaded file structure: \n");
       while ((archiveEntry = tarArchiveInputStream.getNextEntry()) != null) {
         Path archiveEntryOutput = validateArchiveEntry(archiveEntry.getName(), outputPath);
+        sb.append(archiveEntryOutput.toString() + "\n");
         if (archiveEntry.isDirectory()) {
           if (!Files.exists(archiveEntryOutput)) {
             Files.createDirectory(archiveEntryOutput);
@@ -99,6 +106,8 @@ public final class BakeManifestEnvironment implements AutoCloseable {
           Files.copy(tarArchiveInputStream, archiveEntryOutput);
         }
       }
+      sb.append("------------------------------");
+      log.info(sb.toString());
     }
   }
 
