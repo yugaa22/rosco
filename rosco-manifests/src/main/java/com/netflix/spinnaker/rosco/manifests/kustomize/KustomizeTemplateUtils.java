@@ -115,8 +115,15 @@ public class KustomizeTemplateUtils {
       throw new IllegalArgumentException("The bake request should contain a kustomize file path.");
     }
 
+    log.info(
+        "***-> before extract --> kustomizeFilePath: {}, artifact: {}",
+        kustomizeFilePath,
+        request.getInputArtifact());
     env.downloadArtifactTarballAndExtract(artifactDownloader, artifact);
-
+    log.info(
+        "***-> after extract --> kustomizeFilePath: {}, artifact: {}",
+        kustomizeFilePath,
+        request.getInputArtifact());
     List<String> command = new ArrayList<>();
     command.add("kustomize");
     command.add("build");
