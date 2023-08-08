@@ -4,9 +4,7 @@ name: Update README with Commit
 on:
   push:
     branches:
-      - version-0.25.0-1.26.6
-      - 1.30.1_v1.13.1
-      - v1.8.5-1.28.4
+      - '**'
 
       
     paths-ignore:
