@@ -76,5 +76,10 @@ docker-machine rm spinnaker
 ```
 
 
+$${\color{lightblue} Recent \space commits:}$$ 
+
+              CommitID                   |   Author      | Commit Message          | Commit Date
+----------------------------------------------------------------------------------------------------
+
 
 205aa9ecb2ed8d4d5c5d7b3c63c461925a474a25 | Yugandharkumar | Create commits-preserve.yml | 2023-08-09 
