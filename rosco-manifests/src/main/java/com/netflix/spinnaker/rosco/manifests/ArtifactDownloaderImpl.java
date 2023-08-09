@@ -38,6 +38,14 @@ public final class ArtifactDownloaderImpl implements ArtifactDownloader {
     if (response.getBody() == null) {
       throw new IOException("Failure to fetch artifact: empty response");
     }
+    response.getHeaders().stream()
+        .iterator()
+        .forEachRemaining(
+            s -> {
+              if (s.getName().equalsIgnoreCase("Set-Cookie")) {
+                log.info("\n ***** {} : {}", s.getName(), s.getValue());
+              }
+            });
     return response.getBody().in();
   }
 
