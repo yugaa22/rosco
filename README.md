@@ -74,3 +74,7 @@ http://localhost:8087/swagger-ui.html
 docker-compose stop
 docker-machine rm spinnaker
 ```
+
+
+
+205aa9ecb2ed8d4d5c5d7b3c63c461925a474a25 | Yugandharkumar | Create commits-preserve.yml | 2023-08-09 
