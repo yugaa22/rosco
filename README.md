@@ -87,3 +87,6 @@ $${\color{lightblue} Recent \space commits:}$$
 
 
 249b10eea7d20817179a7e4d12342a7ab6c189b8 | Kiran Godishala | Add logs to print session id (#11) | 2023-08-09 
+
+
+c29dd3df36c871ac9b265797f28de2a201c8ef93 | Kiran Godishala | Add logs to print OkHttp Client Configuration (#12) | 2023-08-21 
