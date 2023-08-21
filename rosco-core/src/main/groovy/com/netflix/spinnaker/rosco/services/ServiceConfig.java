@@ -22,12 +22,15 @@ import com.jakewharton.retrofit.Ok3Client;
 import com.netflix.spinnaker.config.OkHttp3ClientConfiguration;
 import com.netflix.spinnaker.kork.core.RetrySupport;
 import com.netflix.spinnaker.kork.retrofit.exceptions.SpinnakerRetrofitErrorHandler;
+import com.netflix.spinnaker.okhttp.OkHttpClientConfigurationProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit.RestAdapter;
 import retrofit.converter.JacksonConverter;
 
+@Slf4j
 @Configuration
 public class ServiceConfig {
   @Value("${services.clouddriver.base-url:http://localhost:7002}")
@@ -37,7 +40,26 @@ public class ServiceConfig {
   String retrofitLogLevel;
 
   @Bean
-  Ok3Client okClient(OkHttp3ClientConfiguration okHttpClientConfig) {
+  Ok3Client okClient(
+      OkHttp3ClientConfiguration okHttpClientConfig,
+      OkHttpClientConfigurationProperties configProperties) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\n----------- OkHttp3ClientConfiguration -----------------")
+        .append("\n getConnectTimeoutMs=")
+        .append(configProperties.getConnectTimeoutMs())
+        .append("\n getReadTimeoutMs=")
+        .append(configProperties.getReadTimeoutMs())
+        .append("\n getMaxRequests=")
+        .append(configProperties.getMaxRequests())
+        .append("\n getMaxRequestsPerHost=")
+        .append(configProperties.getMaxRequestsPerHost())
+        .append("\n getRetryOnConnectionFailure=")
+        .append(configProperties.getRetryOnConnectionFailure())
+        .append("\n getMaxIdleConnections=")
+        .append(configProperties.getConnectionPool().getMaxIdleConnections())
+        .append("\n getKeepAliveDurationMs=")
+        .append(configProperties.getConnectionPool().getKeepAliveDurationMs());
+    log.info(sb.toString());
     return new Ok3Client(okHttpClientConfig.create().build());
   }
 
@@ -53,7 +75,6 @@ public class ServiceConfig {
         new ObjectMapper()
             .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
     return new RestAdapter.Builder()
         .setEndpoint(clouddriverBaseUrl)
         .setClient(ok3Client)
