@@ -1,4 +1,4 @@
-name: Create Release on PR Merge and build
+name: Create Release on PR Merge and buildxvx
 
 on:
   pull_request:
