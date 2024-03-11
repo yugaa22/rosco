@@ -9,7 +9,7 @@ It presently supports producing Alibaba Cloud images, Google Compute Engine imag
 It exposes a REST api which can be experimented with via the Swagger UI: http://localhost:8087/swagger-ui.html
 
 # Developing rosco
-
+ 
 Need to run rosco locally for development? Here's what you need to setup and run:
 
 ## Environment Setup
