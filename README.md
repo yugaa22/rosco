@@ -1,4 +1,4 @@
-Rosco Image build task SHA
+Rosco Image build task SHA acton test
 =====
 [![Build Status](https://api.travis-ci.org/spinnaker/rosco.svg?branch=master)](https://travis-ci.org/spinnaker/rosco)
 
