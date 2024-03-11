@@ -1,6 +1,7 @@
 name: Create Release on PR Merge and build
 
 on:
+
   pull_request:
     types: [closed]
 
@@ -12,6 +13,7 @@ env:
 jobs:
   create_release:
     if: github.event.pull_request.merged == true
+                      #&& github.event.pull_request.base.ref == '1.30.1'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -42,6 +44,12 @@ jobs:
         env:
           INPUT_LAST_TAG: ${{ steps.get_previous_tag.outputs.last_tag }}
           INPUT_BRANCH_NAME: ${{ steps.get_branch_name.outputs.branch }}
+          
+      - name: Extract Version from YAML
+        id: extract_version
+        run: |
+          version=$(curl -s https://storage.googleapis.com/halconfig/bom/1.30.1.yml | yq '.services.rosco.version')
+          echo "::set-output name=version::$version"
 
       - name: Create Release
         id: create_release
@@ -49,8 +57,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_branch_name.outputs.branch }}-rc${{ steps.determine_rc_number.outputs.rc_number }}
-          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.get_branch_name.outputs.branch }}-rc${{ steps.determine_rc_number.outputs.rc_number }}"
+          tag_name: ${{ steps.get_branch_name.outputs.branch }}_v${{ steps.extract_version.outputs.version }}-rc${{ steps.determine_rc_number.outputs.rc_number }}
+          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.get_branch_name.outputs.branch }}_v${{ steps.extract_version.outputs.version }}-rc${{ steps.determine_rc_number.outputs.rc_number }}"
           body: |
             This is an automatically generated release for PR ${{ github.event.pull_request.number }}.
             Add your release notes here.
@@ -99,6 +107,6 @@ jobs:
               file: docker/ubi8/Dockerfile
               push: true
               tags: |
-                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.get_branch_name.outputs.branch }}-rc${{ steps.determine_rc_number.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
+                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.get_branch_name.outputs.branch }}_v${{ steps.extract_version.outputs.version }}-rc${{ steps.determine_rc_number.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
 
      
