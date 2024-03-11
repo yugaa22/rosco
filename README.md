@@ -7,7 +7,7 @@ Rosco is Spinnaker's bakery, producing machine images with Hashicorp Packer and 
 It presently supports producing Alibaba Cloud images, Google Compute Engine images, Huawei Cloud images, Tencent Cloud images, AWS AMI's and Azure images. It relies on [Hashicorp Packer](https://www.packer.io/) and can be easily extended to support additional platforms.
 
 It exposes a REST api which can be experimented with via the Swagger UI: http://localhost:8087/swagger-ui.html
-
+  
 # Developing rosco
  
 Need to run rosco locally for development? Here's what you need to setup and run:
