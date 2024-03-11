@@ -97,6 +97,6 @@ jobs:
               file: docker/ubi8/Dockerfile
               push: true
               tags: |
-                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.get_branch_name.outputs.branch }}-rc${{ steps.determine_rc_number.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}""
+                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.get_branch_name.outputs.branch }}-rc${{ steps.determine_rc_number.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
 
      
