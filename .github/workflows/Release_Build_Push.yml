@@ -68,8 +68,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_branch_name.outputs.branch }}_v${{ steps.extract_version.outputs.version }}-rc${{ steps.determine_rc_number.outputs.rc_number }}
-          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.get_branch_name.outputs.branch }}_v${{ steps.extract_version.outputs.version }}-rc${{ steps.determine_rc_number.outputs.rc_number }}"
+          tag_name: ${{ steps.get_branch_name.outputs.branch }}_rc${{ steps.determine_rc_number.outputs.rc_number }}
+          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.get_branch_name.outputs.branch }}_rc${{ steps.determine_rc_number.outputs.rc_number }}"
           body: |
             This is an automatically generated release for PR ${{ github.event.pull_request.number }}.
             Add your release notes here.
