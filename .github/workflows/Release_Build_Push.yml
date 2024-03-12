@@ -39,7 +39,7 @@ jobs:
           
 
 
-            if [[ $last_tag =~ ${branch_name}_v([0-9]+)_rc([0-9]+) ]]; then
+            if [[ $last_tag =~ ${branch_name}-rc([0-9]+) ]]; then
             rc_number=$((RegExp.$2 + 1))
             else
                 # If no previous RC tag found, set RC number to 1
