@@ -110,6 +110,8 @@ jobs:
         run: |
                 
                 ./gradlew --no-daemon -PenableCrossCompilerPlugin=true rosco-web:installDist -x test 
+                                # "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ needs.create_release.outputs.branch_name }}_v${{ needs.create_release.outputs.version }}-rc${{ needs.create_release.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
+
 
       - name: dockerBuildpush
         uses: docker/build-push-action@v2
@@ -118,7 +120,7 @@ jobs:
               file: docker/ubi8/Dockerfile
               push: true
               tags: |
-                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ needs.create_release.outputs.branch_name }}_v${{ needs.create_release.outputs.version }}-rc${{ needs.create_release.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
+                 "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ needs.create_release.outputs.branch_name }}-rc${{ needs.create_release.outputs.rc_number }}-${{ steps.build_variables.outputs.GITHASH }}-${{ steps.build_variables.outputs.BUILDDATE }}"
 
 
      
