@@ -32,7 +32,7 @@ jobs:
           branch_name=$INPUT_BRANCH_NAME
 
            git fetch --tags  -q
-           latest_tag=$(git tag -l | grep '${branch_name}_rc*' | sort -V | tail -n1)
+           latest_tag=$(git tag -l | grep "${branch_name}_rc*" | sort -V | tail -n1)
            rc_number=$(echo "$latest_tag" | sed 's/.*_rc\([0-9]*\)$/\1/')
            next_rc=$((rc_number + 1))
            new_tag=$(echo "$latest_tag" | sed "s/rc${rc_number}/rc${next_rc}/")
