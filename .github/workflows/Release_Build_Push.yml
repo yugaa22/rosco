@@ -29,8 +29,15 @@ jobs:
       - name: Get previous tag
         id: get_previous_tag
         run: |
-          last_tag=$(git describe --abbrev=0 --tags || echo "none")
-          echo "::set-output name=last_tag::$last_tag"
+           latest_tag=$(git tag -l | grep '1.30.1-rc*' | sort -V | tail -n1)
+           rc_number=$(echo "$latest_tag" | sed 's/.*-rc\([0-9]*\)$/\1/')
+           next_rc=$((rc_number + 1))
+           new_tag=$(echo "$latest_tag" | sed "s/rc${rc_number}/rc${next_rc}/")
+           echo "Latest tag: $latest_tag"
+           echo "New tag: $new_tag"
+
+            #last_tag=$(git describe --abbrev=0 --tags || echo "none")
+           echo "::set-output name=last_tag::$new_tag"
       - name: Determine RC number
         id: determine_rc_number
         run: |
