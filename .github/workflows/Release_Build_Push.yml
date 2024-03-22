@@ -18,8 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       rc_number: ${{ steps.determine_rc_number.outputs.rc_number }}
-      branch_name: ${{ steps.determine_rc_number.outputs.branch_name }}
-      version: ${{ steps.extract_version.outputs.version }}
+      new_tag: ${{ steps.determine_rc_number.outputs.new_tag }}
+      branch_name: ${{ steps.get_branch_name.outputs.branch }}
+      #version: ${{ steps.extract_version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -39,13 +40,14 @@ jobs:
            echo "Latest tag: $latest_tag"
            echo "New tag: $new_tag"
 
-            #last_tag=$(git describe --abbrev=0 --tags || echo "none")
+           
            echo "::set-output name=last_tag::$new_tag"
+           echo "::set-output name=rc_number::$next_rc"
+
+
           
-
-
-          echo "::set-output name=rc_number::$rc_number"
-          echo "rc_number=$rc_number" >> $GITHUB_OUTPUT  
+          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT  
+          echo "rc_number=$next_rc" >> $GITHUB_OUTPUT  
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT  
         shell: bash
         env:
@@ -64,8 +66,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_branch_name.outputs.branch }}_rc${{ steps.determine_rc_number.outputs.rc_number }}
-          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.get_branch_name.outputs.branch }}_rc${{ steps.determine_rc_number.outputs.rc_number }}"
+          tag_name: ${{ steps.determine_rc_number.outputs.new_tag }}
+          release_name: "Branch: ${{ steps.get_branch_name.outputs.branch }} and tag: ${{ steps.determine_rc_number.outputs.new_tag }}"
           body: |
             This is an automatically generated release for PR ${{ github.event.pull_request.number }}.
             Add your release notes here.
